@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://dps57uc0wq53c"]
+
+[ext_resource type="Script" uid="uid://djtt62a3bqoml" path="res://scripts/character_body_2d.gd" id="1_cmw8w"]
+[ext_resource type="PackedScene" uid="uid://ddhe2kecpf7re" path="res://platform.tscn" id="1_k1ntv"]
+[ext_resource type="Script" uid="uid://ck44smiry465v" path="res://scripts/spawn_platform.gd" id="2_t8ltx"]
+[ext_resource type="AudioStream" uid="uid://bgppcvtc5usb" path="res://safehaven.mp3" id="4_ftcjt"]
+[ext_resource type="Texture2D" uid="uid://8v02fna2u0g0" path="res://pictures/costume2.svg" id="6_6ryk2"]
+[ext_resource type="PackedScene" uid="uid://wkrg85aisn4k" path="res://checkpoint.tscn" id="6_t8ltx"]
+[ext_resource type="Script" uid="uid://0jlc3sj02e2x" path="res://scripts/score_change.gd" id="7_6ryk2"]
+[ext_resource type="Script" uid="uid://crnm3ed54e07j" path="res://scripts/background.gd" id="7_7r3nf"]
+
+[sub_resource type="Gradient" id="Gradient_k1ntv"]
+offsets = PackedFloat32Array(0, 0.35740972, 0.7011208)
+colors = PackedColorArray(1, 1, 1, 0, 0.18294853, 0.18294853, 0.18294853, 0.8170515, 0, 0, 0, 1)
+metadata/_snap_count = 2
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_baw3f"]
+gradient = SubResource("Gradient_k1ntv")
+width = 5
+height = 5
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jqaoo"]
+radius = 14.0
+height = 64.0
+
+[node name="Node2D" type="Node2D" unique_id=1569530910]
+
+[node name="Platform6" parent="." unique_id=1296111735 instance=ExtResource("1_k1ntv")]
+position = Vector2(0, 200)
+
+[node name="spawned_elems" type="Node" parent="." unique_id=45054804]
+script = ExtResource("2_t8ltx")
+platform_scene = ExtResource("1_k1ntv")
+checkpoint_scene = ExtResource("6_t8ltx")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=566913380]
+stream = ExtResource("4_ftcjt")
+autoplay = true
+parameters/looping = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=791323755]
+script = ExtResource("1_cmw8w")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=2104596835]
+zoom = Vector2(2, 2)
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=1648127913]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_6ryk2")
+
+[node name="Label" type="Label" parent="CharacterBody2D" unique_id=138549786]
+z_index = 2
+offset_left = -30.0
+offset_top = -126.0
+offset_right = 30.0
+offset_bottom = -103.0
+text = "1"
+horizontal_alignment = 1
+script = ExtResource("7_6ryk2")
+
+[node name="vignette" type="Sprite2D" parent="CharacterBody2D" unique_id=1355466219]
+z_index = 1
+scale = Vector2(140, 140)
+texture = SubResource("GradientTexture2D_baw3f")
+script = ExtResource("7_7r3nf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1943186015]
+shape = SubResource("CapsuleShape2D_jqaoo")
+
+[connection signal="addscore" from="spawned_elems" to="CharacterBody2D/Label" method="_on_spawned_elems_addscore"]

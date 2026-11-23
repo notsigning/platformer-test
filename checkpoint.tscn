@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://wkrg85aisn4k"]
+
+[ext_resource type="Script" uid="uid://ck7s7ospaxxgn" path="res://scripts/checkpoint.gd" id="1_tnhlw"]
+[ext_resource type="Texture2D" uid="uid://bcj72b17njx3v" path="res://pictures/ballBlue_10.png" id="1_ywqth"]
+[ext_resource type="Script" uid="uid://b2lwwhm748ude" path="res://scripts/light_effect.gd" id="2_ywqth"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_baw3f"]
+
+[sub_resource type="Gradient" id="Gradient_luqgl"]
+offsets = PackedFloat32Array(0, 0.48850575)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jqaoo"]
+gradient = SubResource("Gradient_luqgl")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="Checkpoint" type="Area2D" unique_id=2102232547]
+script = ExtResource("1_tnhlw")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=903859296]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_ywqth")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=800143794]
+scale = Vector2(2, 2)
+shape = SubResource("CircleShape2D_baw3f")
+
+[node name="light effect" type="Sprite2D" parent="." unique_id=1616647863]
+z_index = 2
+scale = Vector2(2, 2)
+texture = SubResource("GradientTexture2D_jqaoo")
+script = ExtResource("2_ywqth")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
